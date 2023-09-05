@@ -1,18 +1,14 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*; 
 
 /**
- * Write a description of class Boss here.
+ * Class Boss is to handle Boss object in the game.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring  
+ * 
  */
 public class Boss extends Enemies
 {
-    /**
-     * Act - do whatever the Boss wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    int bossHealth = 600;
+    public int bossHealth = 600;
     private int direction = 1;
     
     public Boss(){
@@ -21,6 +17,7 @@ public class Boss extends Enemies
         setImage(image);
         setRotation(0);
     }
+    
     public void act()
     {
         // Add your action code here.
@@ -119,8 +116,8 @@ public class Boss extends Enemies
     
     private void stopbgm()
     {
-        World world = getWorld(); // as a World object, members of MyWorld are inaccessible
-        MyWorld myWorld = (MyWorld) world; // the world cast as a MyWorld object
+        World world = getWorld();
+        MyWorld myWorld = (MyWorld) world;
         myWorld.bgm.stop(); 
     }
 }

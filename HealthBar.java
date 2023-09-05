@@ -1,21 +1,17 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class HealthBar here.
+ * Class HealthBar is to handle player health and showing health in the screen.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring 
+ * 
  */
 public class HealthBar extends Event
 {
-    /**
-     * Act - do whatever the HealthBar wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    
     int health = 20;
     int healthbarWidth = 80;
     int healthbarHeight = 10;
+    int remainingHealth;
     int PixelsPerHealthPoints = (int) healthbarWidth/health;
     
     public HealthBar()
@@ -50,7 +46,16 @@ public class HealthBar extends Event
     
     public void addHealth()
     {
-        health += 5;
+        if(health <20) {
+            remainingHealth = 20 - health;
+            if(remainingHealth >= 5){ 
+                health +=5;
+            } else {
+                health += remainingHealth;
+            }
+        }
+        
+        Update();
     }
     
     public void lose()
@@ -72,8 +77,8 @@ public class HealthBar extends Event
     
     private void stopbgm()
     {
-        World world = getWorld(); // as a World object, members of MyWorld are inaccessible
-        MyWorld myWorld = (MyWorld) world; // the world cast as a MyWorld object
+        World world = getWorld();
+        MyWorld myWorld = (MyWorld) world;
         myWorld.bgm.stop(); 
     }
     

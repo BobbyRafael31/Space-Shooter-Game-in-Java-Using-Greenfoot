@@ -1,10 +1,10 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
- * Write a description of class MyWorld here.
+ * Class MyWorld is to handle everything in the main game.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring
+ * 
  */
 public class MyWorld extends World
 {

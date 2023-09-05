@@ -1,19 +1,14 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*; 
 
 
 /**
- * Write a description of class ScreenMenu here.
+ * Class ScreenMenu is to handle Start Menu in the beggining.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring 
+ * 
  */
 
-public class ScreenMenu extends World{
-
-    /**
-     * Constructor for objects of class ScreenMenu.
-     * 
-     */
+public class ScreenMenu extends World {
     private static final String bgImageName = "space1.jpg";
     private static final int picHeight = (new GreenfootImage(bgImageName)).getHeight();
   
@@ -23,7 +18,6 @@ public class ScreenMenu extends World{
     
     public ScreenMenu()
     {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(600, 400, 1); 
         prepare();
     }
@@ -31,6 +25,7 @@ public class ScreenMenu extends World{
     public void act()
     {
         paint(scrollPosition);
+        
         if(Greenfoot.mouseClicked(this))
         {
             bgm.stop();
@@ -50,10 +45,7 @@ public class ScreenMenu extends World{
         getBackground().drawImage(bg, 0, scrollAmt); // scroll image down
         getBackground().drawImage(bg, 0, scrollAmt-getHeight());
     }
-    /**
-     * Prepare the world for the start of the program.
-     * That is: create the initial objects and add them to the world.
-     */
+    
     private void prepare()
     {
         Title title = new Title();

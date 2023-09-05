@@ -1,17 +1,13 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
- * Write a description of class ExitButton here.
+ * Class ExitButton is to run ExitButton function.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring  
+ * 
  */
 public class ExitButton extends Button
 {
-    /**
-     * Act - do whatever the ExitButton wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public ExitButton()
     {
         GreenfootImage image = getImage();
@@ -19,9 +15,9 @@ public class ExitButton extends Button
         setImage(image);
         setRotation(0);
     }
+    
     public void act()
     {
-        // Add your action code here.
         moveStart();
         checkMouse();
         checkExitButton();
@@ -38,6 +34,4 @@ public class ExitButton extends Button
             setLocation(getX(), getY());
         }
     }
-    
-    
 }

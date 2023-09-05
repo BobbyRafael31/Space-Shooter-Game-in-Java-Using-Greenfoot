@@ -1,65 +1,51 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
- * Write a description of class Player here.
+ * Class Player is to handle all player action.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring 
+ * 
  */
 public class Player extends Actor
 {
-    /**
-     * Act - do whatever the Player wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    private static int cooldownMax = 12;
-    private static int cooldownMax2 = 5;
-    private static int cooldownMax3 = 8;
-    private static int cooldownMax4 = 7;
-    
+    private static int[] cooldownMax = {12,5,8,7};
+    private static int[] powerUpCooldown= {0,0,0,0};
     private int fireCooldown = 0;
     
-    private int powerUpCooldown = 0;
-    private int powerUpCooldown2= 0;
-    private int powerUpCooldown3= 0;
-    private int powerUpCooldown4= 0;
     public Player()
     {
         GreenfootImage image = getImage();
         image.scale(image.getWidth()+5, image.getHeight()+5);
         setImage(image);
         setRotation(0);
-        
     }
+    
     public void act()
     {
-        // Add your action code here.
         moveAround();
         fireProjectile();
         hitByEnemyProjectile();
         hitEnemy();
         hitHealthUp();
-        
-       
     }
     
     public void moveAround(){
-        if(Greenfoot.isKeyDown("right"))
-        {
-            setLocation(getX()+5,getY());
+        int deltaX = 0;
+        int deltaY = 0;
+        
+        if(Greenfoot.isKeyDown("right")) {
+            deltaX = 5;
+        } else if (Greenfoot.isKeyDown("left")) {
+            deltaX = -5;
         }
-        if(Greenfoot.isKeyDown("left"))
-        {
-            setLocation(getX()-5,getY());
+        
+        if(Greenfoot.isKeyDown("up")) {
+            deltaY = -5;
+        } else if (Greenfoot.isKeyDown("down")) {
+            deltaY = 5;
         }
-         if(Greenfoot.isKeyDown("up"))
-        {
-            setLocation(getX(),getY()-5);
-        }
-         if(Greenfoot.isKeyDown("down"))
-        {
-            setLocation(getX(),getY()+5);
-        }    
+        
+        setLocation(getX() + deltaX, getY() + deltaY);
     }
     
     public void fireProjectile(){
@@ -72,52 +58,48 @@ public class Player extends Actor
             Actor Projectile2 = getOneIntersectingObject(Projectile2.class);
             Actor Projectile3 = getOneIntersectingObject(Projectile3.class);
             Actor Projectile4 = getOneIntersectingObject(Projectile4.class);
-            if(Projectile2!=null){
-                powerUpCooldown = 0;
-                powerUpCooldown3 = 0;
-                powerUpCooldown4 = 0;
-                powerUpCooldown2 = 100;
+            
+            if(Projectile2!=null) {
+                resetPowerUpCooldown();
+                powerUpCooldown[1] = 100;
                 getWorld().removeObject(Projectile2);
-            }else if(Projectile3!=null){
-                powerUpCooldown = 0;
-                powerUpCooldown2 = 0;
-                powerUpCooldown4 = 0;
-                powerUpCooldown3 =100;
+            } else if(Projectile3!=null) {
+                resetPowerUpCooldown();
+                powerUpCooldown[2] =100;
                 getWorld().removeObject(Projectile3);
-            }else if(Projectile4!=null){
-                powerUpCooldown = 0;
-                powerUpCooldown2 = 0;
-                powerUpCooldown3 = 0;
-                powerUpCooldown4 = 100;
+            } else if(Projectile4!=null) {
+                resetPowerUpCooldown();
+                powerUpCooldown[3] = 100;
                 getWorld().removeObject(Projectile4);
             }
-            if(powerUpCooldown2 > 0)
-            {
+            
+            if(powerUpCooldown[1] > 0){
                  getWorld().addObject(new playerProjectile2(),getX(),getY()-10);
+                 fireCooldown = cooldownMax[1]; 
+                 powerUpCooldown[1]--;
                  setSfx();
-                 fireCooldown = cooldownMax2; 
-                 powerUpCooldown2--;
-            }else if(powerUpCooldown3 > 0)
-            {
+            } else if(powerUpCooldown[2] > 0) {
                 getWorld().addObject(new playerProjectile3(),getX(),getY()-10);
+                fireCooldown = cooldownMax[2]; 
+                powerUpCooldown[2]--;
                 setSfx2();
-                fireCooldown = cooldownMax3; 
-                powerUpCooldown3--;
-            }else if(powerUpCooldown4 > 0)
-            {
+            } else if(powerUpCooldown[3] > 0) {
                 getWorld().addObject(new playerProjectile4(),getX(),getY()-10);
+                fireCooldown = cooldownMax[3]; 
+                powerUpCooldown[3]--;
                 setSfx3();
-                fireCooldown = cooldownMax4; 
-                powerUpCooldown4--;
-            }
-           else
-           {
+            } else {
                 getWorld().addObject(new playerProjectile(),getX(),getY()-10);
+                fireCooldown = cooldownMax[0];
                 setSfx();
-                fireCooldown = cooldownMax; 
            }
         }
-        
+    }
+    
+    private void resetPowerUpCooldown() {
+        for (int i = 0; i < powerUpCooldown.length; i++) {
+            powerUpCooldown[i] = 0;
+        }
     }
     
     private void setSfx()
@@ -141,61 +123,56 @@ public class Player extends Actor
     
     public void hitByEnemyProjectile()
     {
-        Actor enemyProjectile = getOneIntersectingObject(enemyProjectile.class);
-        Actor enemyProjectile2 = getOneIntersectingObject(enemyProjectile2.class);
-        Actor enemyProjectile3 = getOneIntersectingObject(enemyProjectile3.class);
-        Actor bossProjectile = getOneIntersectingObject(bossProjectile.class);
-        if(enemyProjectile != null)
-        {
-            getWorld().removeObject(enemyProjectile);
-            playerloseHealth();
-        }else if(enemyProjectile2 != null){
-            getWorld().removeObject(enemyProjectile2);
-            playerloseHealth();
-        }else if(enemyProjectile3 != null){
-            getWorld().removeObject(enemyProjectile3);
-            playerloseHealth();
-        }else if(bossProjectile != null){
-            getWorld().removeObject(bossProjectile);
-            playerloseHealthFromBoss();
+        Actor[] projectiles = {
+            getOneIntersectingObject(enemyProjectile.class),
+            getOneIntersectingObject(enemyProjectile2.class),
+            getOneIntersectingObject(enemyProjectile3.class),
+            getOneIntersectingObject(bossProjectile.class)
+        };
+        
+        for (Actor projectile : projectiles){
+            if(projectile != null){
+                getWorld().removeObject(projectile);
+                if(projectile instanceof bossProjectile){
+                    playerloseHealthFromBoss();
+                }else{
+                    playerloseHealth();
+                }
+            }
         }
     }
     
     
     public void hitEnemy(){
-        Actor Enemy1 = getOneIntersectingObject(Enemy1.class);
-        Actor Enemy2 = getOneIntersectingObject(Enemy2.class);
-        Actor Enemy3 = getOneIntersectingObject(Enemy3.class);
-        if(Enemy1 != null){
-             getWorld().removeObject(Enemy1);
-             playerloseHealth();
-        }else if(Enemy2 != null){
-            getWorld().removeObject(Enemy2);
-            playerloseHealth();
-        }else if(Enemy3 != null){
-            getWorld().removeObject(Enemy3);
-            playerloseHealth();
+        Actor[] enemies = {
+            getOneIntersectingObject(Enemy1.class),
+            getOneIntersectingObject(Enemy2.class),
+            getOneIntersectingObject(Enemy3.class)
+        };
+
+        for(Actor enemy : enemies){
+            if(enemy != null){
+                getWorld().removeObject(enemy);
+                playerloseHealth();
+            }
         }
     }
    
-    private void playerloseHealth()
-    {
+    private void playerloseHealth() {
         World world  = getWorld();
         MyWorld myWorld = (MyWorld)world;
         HealthBar healthbar = myWorld.getHealthBar();
         healthbar.loseHealth();
     }
     
-    private void playerloseHealthFromBoss(){
+    private void playerloseHealthFromBoss() {
         World world = getWorld();
         MyWorld myWorld = (MyWorld)world;
         HealthBar healthbar = myWorld.getHealthBar();
         healthbar.loseHealthFromBoss();
-
     }
     
-    public void hitHealthUp()
-    {
+    public void hitHealthUp() {
         Actor HealthUp = getOneIntersectingObject(HealthUp.class);
         if(HealthUp != null)
         {
@@ -204,8 +181,6 @@ public class Player extends Actor
             HealthBar healthbar = myWorld.getHealthBar();
             healthbar.addHealth();
             getWorld().removeObject(HealthUp);
-            
         }
     }
-
 }

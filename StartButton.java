@@ -1,18 +1,13 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
 /**
- * Write a description of class StartButton here.
+ * Class StartButton is to run Start Button function.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring  
+ * 
  */
 public class StartButton extends Button
 {
-    /**
-     * Act - do whatever the StartButton wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    
     public StartButton()
     {
         GreenfootImage image = getImage();
@@ -23,7 +18,6 @@ public class StartButton extends Button
     
     public void act()
     {
-        // Add your action code here.
         moveStart();
         checkMouse();
         checkClick(new MyWorld());
@@ -40,5 +34,4 @@ public class StartButton extends Button
             setLocation(getX(), getY());
         }
     }
-    
 }

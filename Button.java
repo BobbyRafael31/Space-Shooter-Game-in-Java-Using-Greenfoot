@@ -1,19 +1,15 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;  
 
 /**
- * Write a description of class Button here.
+ * Class Button is to handle all button child class and show it into the screen.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @BobbyRafaelSembiring  
+ * 
  */
 public class Button extends Actor
 { 
     private boolean mouseOver = false;
     private static int MAX_TRANS = 255;
-    /**
-     * Act - do whatever the Button wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     
     public void checkMouse()
     {
@@ -55,9 +51,8 @@ public class Button extends Actor
     
     private void stopbgm()
     {
-        World world = getWorld(); // as a World object, members of MyWorld are inaccessible
-        ScreenMenu screenmenu = (ScreenMenu) world; // the world cast as a MyWorld object
+        World world = getWorld();
+        ScreenMenu screenmenu = (ScreenMenu) world;
         screenmenu.bgm.stop(); 
     }
-
 }
