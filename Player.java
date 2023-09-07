@@ -29,7 +29,7 @@ public class Player extends Actor
         hitHealthUp();
     }
     
-    public void moveAround(){
+    private void moveAround(){
         int deltaX = 0;
         int deltaY = 0;
         
@@ -48,50 +48,54 @@ public class Player extends Actor
         setLocation(getX() + deltaX, getY() + deltaY);
     }
     
-    public void fireProjectile(){
-        if(fireCooldown > 0)
-        {
+    private void fireProjectile(){
+        if(fireCooldown > 0) {
             fireCooldown--;
         }
-        else if(Greenfoot.isKeyDown("space"))
-        {
-            Actor Projectile2 = getOneIntersectingObject(Projectile2.class);
-            Actor Projectile3 = getOneIntersectingObject(Projectile3.class);
-            Actor Projectile4 = getOneIntersectingObject(Projectile4.class);
+        else if(Greenfoot.isKeyDown("space")) {
+            Actor[] playerProjectiles = {
+                getOneIntersectingObject(Projectile2.class),
+                getOneIntersectingObject(Projectile3.class),
+                getOneIntersectingObject(Projectile4.class)
+            };
             
-            if(Projectile2!=null) {
-                resetPowerUpCooldown();
-                powerUpCooldown[1] = 100;
-                getWorld().removeObject(Projectile2);
-            } else if(Projectile3!=null) {
-                resetPowerUpCooldown();
-                powerUpCooldown[2] =100;
-                getWorld().removeObject(Projectile3);
-            } else if(Projectile4!=null) {
-                resetPowerUpCooldown();
-                powerUpCooldown[3] = 100;
-                getWorld().removeObject(Projectile4);
+            for (Actor projectile : playerProjectiles) {
+                if(projectile != null) {
+                    if (projectile instanceof Projectile2) {
+                        resetPowerUpCooldown();
+                        powerUpCooldown[1] = 100;
+                        getWorld().removeObject(projectile);
+                    } else if (projectile instanceof Projectile3) {
+                        resetPowerUpCooldown();
+                        powerUpCooldown[2] =100;
+                        getWorld().removeObject(projectile);
+                    } else if (projectile instanceof Projectile4) {
+                        resetPowerUpCooldown();
+                        powerUpCooldown[3] = 100;
+                        getWorld().removeObject(projectile);
+                    }
+                }
             }
             
-            if(powerUpCooldown[1] > 0){
+            if(powerUpCooldown[1] > 0) {
                  getWorld().addObject(new playerProjectile2(),getX(),getY()-10);
                  fireCooldown = cooldownMax[1]; 
-                 powerUpCooldown[1]--;
-                 setSfx();
+                 powerUpCooldown[1]--; //5
+                 setSfx("fire2.wav", 100);//fire2.wav
             } else if(powerUpCooldown[2] > 0) {
                 getWorld().addObject(new playerProjectile3(),getX(),getY()-10);
-                fireCooldown = cooldownMax[2]; 
+                fireCooldown = cooldownMax[2]; //8
                 powerUpCooldown[2]--;
-                setSfx2();
+                setSfx("fire3.wav", 85);//fire3.wav
             } else if(powerUpCooldown[3] > 0) {
                 getWorld().addObject(new playerProjectile4(),getX(),getY()-10);
-                fireCooldown = cooldownMax[3]; 
+                fireCooldown = cooldownMax[3]; //7
                 powerUpCooldown[3]--;
-                setSfx3();
+                setSfx("fire4.wav", 65);//fire4.wav
             } else {
                 getWorld().addObject(new playerProjectile(),getX(),getY()-10);
-                fireCooldown = cooldownMax[0];
-                setSfx();
+                fireCooldown = cooldownMax[0]; //12
+                 setSfx("fire2.wav", 100);//fire2.wav
            }
         }
     }
@@ -102,35 +106,22 @@ public class Player extends Actor
         }
     }
     
-    private void setSfx()
+    private void setSfx(String soundFileName, int volume) {
+        GreenfootSound soundEffect = new GreenfootSound(soundFileName);
+        soundEffect.setVolume(volume);
+        soundEffect.play();
+    }
+    
+    private void hitByEnemyProjectile()
     {
-        GreenfootSound fireSfx1 = new GreenfootSound ( "fire2.wav" );
-        fireSfx1.setVolume (100);
-        fireSfx1.play();
-    }
-    
-     private void setSfx2(){
-        GreenfootSound fireSfx3 = new GreenfootSound ( "fire3.wav" );
-        fireSfx3.setVolume (85);
-        fireSfx3.play();
-    }
-    
-    private void setSfx3(){
-        GreenfootSound fireSfx4 = new GreenfootSound ( "fire4.wav" );
-        fireSfx4.setVolume (65);
-        fireSfx4.play();
-    }
-    
-    public void hitByEnemyProjectile()
-    {
-        Actor[] projectiles = {
+        Actor[] enemyProjectiles = {
             getOneIntersectingObject(enemyProjectile.class),
             getOneIntersectingObject(enemyProjectile2.class),
             getOneIntersectingObject(enemyProjectile3.class),
             getOneIntersectingObject(bossProjectile.class)
         };
         
-        for (Actor projectile : projectiles){
+        for (Actor projectile : enemyProjectiles){
             if(projectile != null){
                 getWorld().removeObject(projectile);
                 if(projectile instanceof bossProjectile){
@@ -143,14 +134,14 @@ public class Player extends Actor
     }
     
     
-    public void hitEnemy(){
-        Actor[] enemies = {
+    private void hitEnemy(){
+        Actor[] enemiesObj = {
             getOneIntersectingObject(Enemy1.class),
             getOneIntersectingObject(Enemy2.class),
             getOneIntersectingObject(Enemy3.class)
         };
 
-        for(Actor enemy : enemies){
+        for(Actor enemy : enemiesObj) {
             if(enemy != null){
                 getWorld().removeObject(enemy);
                 playerloseHealth();
@@ -172,10 +163,9 @@ public class Player extends Actor
         healthbar.loseHealthFromBoss();
     }
     
-    public void hitHealthUp() {
+    private void hitHealthUp() {
         Actor HealthUp = getOneIntersectingObject(HealthUp.class);
-        if(HealthUp != null)
-        {
+        if(HealthUp != null) {
             World world  = getWorld();
             MyWorld myWorld = (MyWorld)world;
             HealthBar healthbar = myWorld.getHealthBar();
