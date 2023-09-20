@@ -1,8 +1,10 @@
 #BlueJ class context
 comment0.target=Enemies
 comment0.text=\r\n\ Class\ Enemies\ is\ to\ handle\ Enemies\ child\ class.\r\n\ \r\n\ @BobbyRafaelSembiring\r\n\ \r\n
-comment1.params=
-comment1.target=void\ EnemyDirection()
+comment1.params=health
+comment1.target=Enemies(int)
 comment2.params=
-comment2.target=void\ enemyFire()
-numComments=3
+comment2.target=void\ hitByProjectile()
+comment3.params=
+comment3.target=void\ getScoreCounter()
+numComments=4

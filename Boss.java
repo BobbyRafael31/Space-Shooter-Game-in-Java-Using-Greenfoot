@@ -6,12 +6,12 @@ import greenfoot.*;
  * @BobbyRafaelSembiring  
  * 
  */
-public class Boss extends Enemies
+public class Boss extends Bosses
 {
-    public int bossHealth = 600;
     private int direction = 1;
     
     public Boss(){
+        super(600); //pass boss health
         GreenfootImage image = getImage();
         image.scale(image.getWidth()+1, image.getHeight()+1);
         setImage(image);
@@ -25,47 +25,7 @@ public class Boss extends Enemies
         hitByProjectile();
     }
     
-    public void hitByProjectile()
-    {
-        Actor playerProjectile = getOneIntersectingObject(playerProjectile.class);
-        Actor playerProjectile2 = getOneIntersectingObject(playerProjectile2.class);
-        Actor playerProjectile3 = getOneIntersectingObject (playerProjectile3.class);
-        Actor playerProjectile4 = getOneIntersectingObject (playerProjectile4.class);
-        if(playerProjectile != null)
-        {
-            getWorld().removeObject(playerProjectile);
-            bossHealth--;
-        }else if(playerProjectile2 != null)
-        {
-            getWorld().removeObject(playerProjectile2);
-            bossHealth = bossHealth-2;
-        }else if(playerProjectile3 != null)
-        {
-            getWorld().removeObject(playerProjectile3);
-            bossHealth = bossHealth-3;
-        }else if(playerProjectile4 != null)
-        {
-            getWorld().removeObject(playerProjectile4);
-            bossHealth = bossHealth-4;
-        }
-        if(bossHealth <= 0)
-        {
-            getScoreCounter();
-            stopbgm();
-            
-            World world = getWorld();
-            MyWorld myWorld = (MyWorld)world;
-            Counter counter =myWorld.getCounter();
-            
-            Greenfoot.setWorld(new WinningScreen(counter));
-            
-            Greenfoot.stop(); 
-            Greenfoot.start();
-    
-        }
-    }
-    
-    public void bossDirection(){
+    private void bossDirection(){
         if(getY()>=0 && getY() <79)
         {
             move();
@@ -86,24 +46,16 @@ public class Boss extends Enemies
         }
     }
     
-    public void getScoreCounter()
-    {
-        World world = getWorld();
-        MyWorld myWorld = (MyWorld)world;
-        Counter counter =myWorld.getCounter();
-        counter.addScore();
-    }
-    
-    public void bossFire()
+    private void bossFire()
     {
         getWorld().addObject(new bossProjectile(),getX(),getY()+5);
     }
     
-    public void stop(){
+    private void stop(){
         setLocation(getX(),getY());
     }
     
-    public void move()
+    private void move()
     {
         setLocation(getX(),getY()+1);
     }
@@ -112,12 +64,5 @@ public class Boss extends Enemies
         GreenfootSound fireBossSfx = new GreenfootSound ( "bossFire.wav" );
         fireBossSfx.setVolume(72);
         fireBossSfx.play();
-    }
-    
-    private void stopbgm()
-    {
-        World world = getWorld();
-        MyWorld myWorld = (MyWorld) world;
-        myWorld.bgm.stop(); 
     }
 }
