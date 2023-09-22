@@ -17,45 +17,46 @@ public class Bosses extends Actor
     
     public void hitByProjectile()
     {
-        Actor playerProjectile = getOneIntersectingObject(playerProjectile.class);
-        Actor playerProjectile2 = getOneIntersectingObject(playerProjectile2.class);
-        Actor playerProjectile3 = getOneIntersectingObject (playerProjectile3.class);
-        Actor playerProjectile4 = getOneIntersectingObject (playerProjectile4.class);
-        if(playerProjectile != null)
-        {
-            getWorld().removeObject(playerProjectile);
-            bossHealth--;
-        }else if(playerProjectile2 != null)
-        {
-            getWorld().removeObject(playerProjectile2);
-            bossHealth = bossHealth-2;
-        }else if(playerProjectile3 != null)
-        {
-            getWorld().removeObject(playerProjectile3);
-            bossHealth = bossHealth-3;
-        }else if(playerProjectile4 != null)
-        {
-            getWorld().removeObject(playerProjectile4);
-            bossHealth = bossHealth-4;
+        Actor[] playerProjectiles ={
+            getOneIntersectingObject(playerProjectile.class),
+            getOneIntersectingObject(playerProjectile2.class),
+            getOneIntersectingObject(playerProjectile3.class),
+            getOneIntersectingObject(playerProjectile4.class)
+        };
+        
+        for (Actor projectile : playerProjectiles){
+            if(projectile != null){
+                if(projectile instanceof playerProjectile){
+                    getWorld().removeObject(projectile);
+                    bossHealth--;
+                }else if(projectile instanceof playerProjectile2){
+                    getWorld().removeObject(projectile);
+                    bossHealth = bossHealth-2;
+                }else if(projectile instanceof playerProjectile3){
+                    getWorld().removeObject(projectile);
+                    bossHealth = bossHealth-3;
+                }else if(projectile instanceof playerProjectile4){
+                    getWorld().removeObject(projectile);
+                    bossHealth = bossHealth-4;
+                }
+            }
         }
+        
         if(bossHealth <= 0)
         {
             getScoreCounter();
             stopbgm();
-            
             World world = getWorld();
             MyWorld myWorld = (MyWorld)world;
             Counter counter =myWorld.getCounter();
-            
-            Greenfoot.setWorld(new WinningScreen(counter));
-            
+            Greenfoot.setWorld(new WinningScreen(counter));            
             Greenfoot.stop(); 
             Greenfoot.start();
     
         }
     }
     
-     public void getScoreCounter()
+    public void getScoreCounter()
     {
         World world = getWorld();
         MyWorld myWorld = (MyWorld)world;

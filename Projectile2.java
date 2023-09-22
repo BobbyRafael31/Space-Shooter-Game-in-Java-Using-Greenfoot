@@ -8,20 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Projectile2 extends Skills
 {
-    /**
-     * Act - do whatever the Projectile2 wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act()
     {
-        // Add your action code here.
         moveObj();
         removeProjectileObj();
     }
-    
-    public void moveObj()
-    {
-        setLocation(getX(),getY()+2);
-    }
-
 }

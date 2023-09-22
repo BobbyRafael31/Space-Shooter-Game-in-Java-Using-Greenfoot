@@ -37,9 +37,6 @@ public class Explosion extends Event
         sfx.play();
     }    
     
-    /** 
-     * Create the images for explosion.
-     */
     public synchronized static void initialiseImages() 
     {
         if(images == null) {

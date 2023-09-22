@@ -20,7 +20,6 @@ public class Boss extends Bosses
     
     public void act()
     {
-        // Add your action code here.
         bossDirection();
         hitByProjectile();
     }
